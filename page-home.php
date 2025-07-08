@@ -13,13 +13,13 @@ get_header(); ?>
         <section class="hero-banner">
             <div class="hero-content">
                 <div class="hero-text">
-                    <span class="hero-badge">OFERTA ESPECIAL</span>
-                    <h1 class="hero-title">Merchandising<br>Personalizado</h1>
-                    <p class="hero-subtitle">Hasta -25% con el código: <strong>PROMO2024</strong></p>
+                    <span class="hero-badge">HOT SALE</span>
+                    <h1 class="hero-title">Drilling<br>Rotary hammers</h1>
+                    <p class="hero-subtitle">Up to -20% with the code: <strong>MORATA-SALE20</strong></p>
                     <a href="#productos" class="hero-btn">Ver Productos</a>
                 </div>
                 <div class="hero-image">
-                    <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/hero-merchandising.jpg" alt="Merchandising Personalizado">
+                    <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/hero-drill.jpg" alt="Drilling Tools">
                 </div>
             </div>
         </section>
@@ -27,59 +27,43 @@ get_header(); ?>
         <!-- Productos por Categoría -->
         <section class="products-section" id="productos">
             
-            <!-- Merchandising -->
+            <!-- Drilling Machine Products -->
             <div class="category-section">
                 <div class="category-header">
-                    <h2>Merchandising</h2>
-                    <a href="<?php echo get_category_link(get_cat_ID('merchandising')); ?>" class="view-all">
-                        Ver Todos los Productos >
+                    <h2>Drilling Machine Products</h2>
+                    <a href="<?php echo get_category_link(get_cat_ID('drilling-machines')); ?>" class="view-all">
+                        View All Products >
                     </a>
                 </div>
                 
-                <div class="products-carousel" id="merchandising-carousel">
-                    <?php echo do_shortcode('[productos_carousel categoria="merchandising" limite="8"]'); ?>
+                <div class="products-carousel" id="drilling-carousel">
+                    <?php echo do_shortcode('[productos_carousel categoria="drilling-machines" limite="8"]'); ?>
                 </div>
             </div>
 
-            <!-- Ropa -->
+            <!-- Más categorías -->
             <div class="category-section">
                 <div class="category-header">
-                    <h2>Ropa</h2>
-                    <a href="<?php echo get_category_link(get_cat_ID('ropa')); ?>" class="view-all">
-                        Ver Todos los Productos >
+                    <h2>Power Tools</h2>
+                    <a href="<?php echo get_category_link(get_cat_ID('power-tools')); ?>" class="view-all">
+                        View All Products >
                     </a>
                 </div>
                 
-                <div class="products-carousel" id="ropa-carousel">
-                    <?php echo do_shortcode('[productos_carousel categoria="ropa" limite="8"]'); ?>
+                <div class="products-carousel" id="power-tools-carousel">
+                    <?php echo do_shortcode('[productos_carousel categoria="power-tools" limite="8"]'); ?>
                 </div>
             </div>
 
-            <!-- Uniformes -->
+            <!-- Ofertas Especiales -->
             <div class="category-section">
                 <div class="category-header">
-                    <h2>Uniformes</h2>
-                    <a href="<?php echo get_category_link(get_cat_ID('uniformes')); ?>" class="view-all">
-                        Ver Todos los Productos >
-                    </a>
+                    <h2>Special Offers</h2>
+                    <a href="/ofertas" class="view-all">View All Offers ></a>
                 </div>
                 
-                <div class="products-carousel" id="uniformes-carousel">
-                    <?php echo do_shortcode('[productos_carousel categoria="uniformes" limite="6"]'); ?>
-                </div>
-            </div>
-
-            <!-- Regalos Corporativos -->
-            <div class="category-section">
-                <div class="category-header">
-                    <h2>Regalos Corporativos</h2>
-                    <a href="<?php echo get_category_link(get_cat_ID('regalos-corporativos')); ?>" class="view-all">
-                        Ver Todos los Productos >
-                    </a>
-                </div>
-                
-                <div class="products-carousel" id="regalos-carousel">
-                    <?php echo do_shortcode('[productos_carousel categoria="regalos-corporativos" limite="6"]'); ?>
+                <div class="products-carousel" id="ofertas-carousel">
+                    <?php echo do_shortcode('[productos_carousel categoria="ofertas" limite="6"]'); ?>
                 </div>
             </div>
 
@@ -90,23 +74,23 @@ get_header(); ?>
             <div class="benefits-container">
                 <div class="benefit-item">
                     <div class="benefit-icon">🚚</div>
-                    <h3>Envío Gratis</h3>
-                    <p>En compras mayores a $50</p>
+                    <h3>Free Shipping</h3>
+                    <p>On orders over $100</p>
                 </div>
                 <div class="benefit-item">
-                    <div class="benefit-icon">🎨</div>
-                    <h3>Personalización</h3>
-                    <p>Diseños únicos para tu marca</p>
+                    <div class="benefit-icon">🔧</div>
+                    <h3>Expert Support</h3>
+                    <p>Professional advice</p>
                 </div>
                 <div class="benefit-item">
-                    <div class="benefit-icon">⚡</div>
-                    <h3>Entrega Rápida</h3>
-                    <p>5-7 días hábiles</p>
+                    <div class="benefit-icon">↩️</div>
+                    <h3>Easy Returns</h3>
+                    <p>30-day return policy</p>
                 </div>
                 <div class="benefit-item">
-                    <div class="benefit-icon">🏆</div>
-                    <h3>Calidad Premium</h3>
-                    <p>Productos de alta calidad</p>
+                    <div class="benefit-icon">🛡️</div>
+                    <h3>Warranty</h3>
+                    <p>2-year manufacturer warranty</p>
                 </div>
             </div>
         </section>
