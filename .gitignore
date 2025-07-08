@@ -1,0 +1,36 @@
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+*.swo
+
+# Logs
+*.log
+error_log
+
+# Archivos temporales
+*~
+*.bak
+*.orig
+
+# IDE y editores
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.code-workspace
+
+# Node modules (si usas herramientas de build)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Archivos de backup
+*.backup
+*.old
+
+# Archivos comprimidos temporales
+*.zip
+*.tar.gz
+*.rar
