@@ -1,0 +1,427 @@
+/*
+Theme Name: Shoptimizer Child
+Template: shoptimizer
+Description: Child theme de Shoptimizer
+Version: 1.0.0
+*/
+
+@import url("../shoptimizer/style.css");
+
+/* Para el texto y los iconos */
+ul#menu-secondary-menu.menu li a {
+    color: #ffffff !important;
+}
+
+/* Para asegurar que los iconos también cambien */
+ul#menu-secondary-menu.menu li a i,
+ul#menu-secondary-menu.menu li a svg,
+ul#menu-secondary-menu.menu li a .icon {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+}
+
+/* ================================
+   HOMEPAGE PERSONALIZADA - CSS
+   ================================ */
+
+/* Variables CSS para colores */
+:root {
+    --primary-color: #ff6b35;
+    --secondary-color: #1a1a1a;
+    --accent-color: #ffd700;
+    --text-color: #333;
+    --light-bg: #f8f9fa;
+    --white: #ffffff;
+    --border-color: #e0e0e0;
+    --shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* ================================
+   HERO BANNER
+   ================================ */
+
+.hero-banner {
+    background: linear-gradient(135deg, var(--primary-color), #ff8c42);
+    padding: 80px 0;
+    margin-bottom: 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    gap: 40px;
+}
+
+.hero-text {
+    flex: 1;
+    color: var(--white);
+}
+
+.hero-badge {
+    background: var(--accent-color);
+    color: var(--secondary-color);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.hero-title {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0 0 20px 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.hero-btn {
+    background: var(--white);
+    color: var(--primary-color);
+    padding: 15px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+.hero-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    color: var(--primary-color);
+}
+
+.hero-image {
+    flex: 1;
+    text-align: center;
+}
+
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+
+/* ================================
+   PRODUCTOS SECTION
+   ================================ */
+
+.products-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.category-section {
+    margin-bottom: 80px;
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.category-header h2 {
+    font-size: 28px;
+    color: var(--secondary-color);
+    margin: 0;
+    font-weight: 600;
+}
+
+.view-all {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.view-all:hover {
+    color: var(--secondary-color);
+}
+
+/* ================================
+   PRODUCTOS CAROUSEL
+   ================================ */
+
+.products-carousel {
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-container {
+    display: flex;
+    transition: transform 0.5s ease;
+    gap: 20px;
+}
+
+.product-card {
+    min-width: 280px;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+.product-image {
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.05);
+}
+
+.product-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--accent-color);
+    color: var(--secondary-color);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 2;
+}
+
+.product-info {
+    padding: 20px;
+}
+
+.product-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    color: var(--secondary-color);
+    line-height: 1.3;
+}
+
+.product-colors {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.color-option {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.color-option:hover {
+    transform: scale(1.2);
+}
+
+.color-option.blue { background: #007acc; }
+.color-option.yellow { background: #ffd700; }
+.color-option.green { background: #28a745; }
+.color-option.red { background: #dc3545; }
+.color-option.orange { background: #fd7e14; }
+.color-option.white { background: #ffffff; }
+
+.product-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.product-rating {
+    margin-bottom: 15px;
+}
+
+.stars {
+    color: var(--accent-color);
+    font-size: 14px;
+}
+
+.product-button {
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.3s ease;
+}
+
+.product-button:hover {
+    background: var(--secondary-color);
+}
+
+/* Botones del carousel */
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.7);
+    color: var(--white);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.carousel-nav:hover {
+    background: var(--primary-color);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-prev {
+    left: -20px;
+}
+
+.carousel-next {
+    right: -20px;
+}
+
+/* ================================
+   BENEFITS SECTION
+   ================================ */
+
+.benefits-section {
+    background: var(--light-bg);
+    padding: 60px 0;
+    margin-top: 80px;
+}
+
+.benefits-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    padding: 0 20px;
+}
+
+.benefit-item {
+    text-align: center;
+    padding: 30px 20px;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+}
+
+.benefit-item:hover {
+    transform: translateY(-5px);
+}
+
+.benefit-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.benefit-item h3 {
+    font-size: 20px;
+    margin: 0 0 10px 0;
+    color: var(--secondary-color);
+}
+
+.benefit-item p {
+    color: var(--text-color);
+    margin: 0;
+    opacity: 0.8;
+}
+
+/* ================================
+   RESPONSIVE DESIGN
+   ================================ */
+
+@media (max-width: 768px) {
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+    
+    .hero-title {
+        font-size: 36px;
+    }
+    
+    .category-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .product-card {
+        min-width: 250px;
+    }
+    
+    .benefits-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .carousel-nav {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-banner {
+        padding: 40px 0;
+    }
+    
+    .hero-title {
+        font-size: 28px;
+    }
+    
+    .hero-subtitle {
+        font-size: 16px;
+    }
+    
+    .product-card {
+        min-width: 200px;
+    }
+    
+    .category-header h2 {
+        font-size: 24px;
+    }
+}
