@@ -8,7 +8,7 @@ get_header(); ?>
 
 <div id="primary" class="content-area">
     <main id="main" class="site-main">
-        
+
         <!-- Hero Banner -->
         <section class="hero-banner">
             <div class="hero-content">
@@ -19,68 +19,58 @@ get_header(); ?>
                     <a href="#productos" class="hero-btn">Ver Productos</a>
                 </div>
                 <div class="hero-image">
-                    <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/hero-merchandising.jpg" alt="Merchandising Personalizado">
+                    <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/hero-merchandising.jpg"
+                        alt="Merchandising Personalizado">
                 </div>
             </div>
         </section>
 
         <!-- Productos por Categoría -->
         <section class="products-section" id="productos">
-            
+
             <!-- Merchandising -->
             <div class="category-section">
                 <div class="category-header">
                     <h2>Merchandising</h2>
-                    <a href="<?php echo get_category_link(get_cat_ID('merchandising')); ?>" class="view-all">
+                    <a href="<?php echo get_term_link('merchandising-personalizado', 'product_cat'); ?>"
+                        class="view-all">
                         Ver Todos los Productos >
                     </a>
                 </div>
-                
-                <div class="products-carousel" id="merchandising-carousel">
-                    <?php echo do_shortcode('[productos_carousel categoria="merchandising" limite="8"]'); ?>
-                </div>
+                <?php echo do_shortcode('[productos_carousel categoria="merchandising-personalizado" limite="8" columns="4"]'); ?>
             </div>
 
             <!-- Ropa -->
             <div class="category-section">
                 <div class="category-header">
                     <h2>Ropa</h2>
-                    <a href="<?php echo get_category_link(get_cat_ID('ropa')); ?>" class="view-all">
+                    <a href="<?php echo get_term_link('ropa', 'product_cat'); ?>" class="view-all">
                         Ver Todos los Productos >
                     </a>
                 </div>
-                
-                <div class="products-carousel" id="ropa-carousel">
-                    <?php echo do_shortcode('[productos_carousel categoria="ropa" limite="8"]'); ?>
-                </div>
+                <?php echo do_shortcode('[productos_carousel categoria="ropa" limite="8" columns="4"]'); ?>
             </div>
 
             <!-- Uniformes -->
             <div class="category-section">
                 <div class="category-header">
                     <h2>Uniformes</h2>
-                    <a href="<?php echo get_category_link(get_cat_ID('uniformes')); ?>" class="view-all">
+                    <a href="<?php echo get_term_link('uniformes-personalizados', 'product_cat'); ?>" class="view-all">
                         Ver Todos los Productos >
                     </a>
                 </div>
-                
-                <div class="products-carousel" id="uniformes-carousel">
-                    <?php echo do_shortcode('[productos_carousel categoria="uniformes" limite="6"]'); ?>
-                </div>
+                <?php echo do_shortcode('[productos_carousel categoria="uniformes-personalizados" limite="6" columns="4"]'); ?>
             </div>
 
             <!-- Regalos Corporativos -->
             <div class="category-section">
                 <div class="category-header">
                     <h2>Regalos Corporativos</h2>
-                    <a href="<?php echo get_category_link(get_cat_ID('regalos-corporativos')); ?>" class="view-all">
+                    <a href="<?php echo get_term_link('regalos-corporativos', 'product_cat'); ?>" class="view-all">
                         Ver Todos los Productos >
                     </a>
                 </div>
-                
-                <div class="products-carousel" id="regalos-carousel">
-                    <?php echo do_shortcode('[productos_carousel categoria="regalos-corporativos" limite="6"]'); ?>
-                </div>
+                <?php echo do_shortcode('[productos_carousel categoria="regalos-corporativos" limite="6" columns="4"]'); ?>
             </div>
 
         </section>

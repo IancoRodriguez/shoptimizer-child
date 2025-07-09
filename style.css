@@ -207,157 +207,47 @@ ul#menu-secondary-menu.menu li a .icon {
 }
 
 /* ================================
-   PRODUCTOS CAROUSEL
+   CAROUSEL ESPECÍFICO PARA SHORTCODE
    ================================ */
 
-.products-carousel {
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 20px;
-}
-
+/* Wrapper del carousel */
 .carousel-wrapper {
     position: relative;
     overflow: hidden;
     margin-bottom: 40px;
+    padding: 0 60px; /* Espacio para los botones */
 }
 
+/* Contenedor del carousel */
 .carousel-container {
-    display: flex;
+    overflow: hidden;
+}
+
+/* Lista de productos en el carousel */
+.carousel-container .products {
+    display: flex !important;
     transition: transform 0.5s ease;
     gap: 20px;
+    will-change: transform;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
-.product-card {
+/* Productos individuales en el carousel */
+.carousel-container .products li.product {
     min-width: 280px;
-    background: var(--white);
-    border-radius: 10px;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    transition: transform 0.3s ease;
-    position: relative;
+    flex-shrink: 0;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-}
-
-.product-image {
-    position: relative;
-    overflow: hidden;
-    height: 200px;
-}
-
-.product-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.product-card:hover .product-image img {
-    transform: scale(1.05);
-}
-
-.product-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: var(--accent-color);
-    color: var(--secondary-color);
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: bold;
-    z-index: 2;
-}
-
-.product-info {
-    padding: 20px;
-}
-
-.product-title {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 0 0 10px 0;
-    color: var(--secondary-color);
-    line-height: 1.3;
-}
-
-.product-title a {
-    color: var(--secondary-color);
-    text-decoration: none;
-}
-
-.product-title a:hover {
-    color: var(--primary-color);
-}
-
-.product-colors {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 15px;
-}
-
-.color-option {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 2px solid var(--border-color);
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.color-option:hover {
-    transform: scale(1.2);
-}
-
-.color-option.blue { background: #007acc; }
-.color-option.yellow { background: #ffd700; }
-.color-option.green { background: #28a745; }
-.color-option.red { background: #dc3545; }
-.color-option.orange { background: #fd7e14; }
-.color-option.white { background: #ffffff; }
-
-.product-price {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-bottom: 15px;
-}
-
-.product-rating {
-    margin-bottom: 15px;
-}
-
-.stars {
-    color: var(--accent-color);
-    font-size: 14px;
-}
-
-.product-button {
-    background: var(--primary-color);
-    color: var(--white);
-    border: none;
-    padding: 12px 20px;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    width: 100%;
-    transition: background 0.3s ease;
-}
-
-.product-button:hover {
-    background: var(--secondary-color);
-}
-
-/* Botones del carousel */
+/* Botones de navegación del carousel */
 .carousel-nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     color: var(--primary-color);
     border: none;
     width: 50px;
@@ -367,12 +257,16 @@ ul#menu-secondary-menu.menu li a .icon {
     transition: all 0.3s ease;
     z-index: 10;
     font-size: 24px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .carousel-nav:hover {
     background: var(--white);
     transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .carousel-prev {
@@ -454,7 +348,11 @@ ul#menu-secondary-menu.menu li a .icon {
         text-align: center;
     }
     
-    .product-card {
+    .carousel-wrapper {
+        padding: 0 20px;
+    }
+    
+    .carousel-container .products li.product {
         min-width: 250px;
     }
     
@@ -464,7 +362,17 @@ ul#menu-secondary-menu.menu li a .icon {
     }
     
     .carousel-nav {
-        display: none;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+    
+    .carousel-prev {
+        left: 5px;
+    }
+    
+    .carousel-next {
+        right: 5px;
     }
 }
 
@@ -481,12 +389,30 @@ ul#menu-secondary-menu.menu li a .icon {
         font-size: 16px;
     }
     
-    .product-card {
-        min-width: 200px;
+    .carousel-wrapper {
+        padding: 0 10px;
+    }
+    
+    .carousel-container .products li.product {
+        min-width: 220px;
     }
     
     .category-header h2 {
         font-size: 24px;
+    }
+    
+    .carousel-nav {
+        display: none !important;
+    }
+    
+    .carousel-container .products {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .carousel-container .products li.product {
+        scroll-snap-align: start;
     }
 }
 
@@ -544,56 +470,16 @@ ul#menu-secondary-menu.menu li a .icon {
     padding: 0 !important;
 }
 
-/* Hero banner con la técnica que funcionó */
-.hero-banner {
-    width: 100vw !important;
-    position: relative;
-    left: 50% !important;
-    right: 50% !important;
-    margin-left: -50vw !important;
-    margin-right: -50vw !important;
-    background: url('images/hero-banner-talagorra.jpg') center/cover no-repeat;
-    padding: 80px 0;
-    margin-bottom: 60px;
-    overflow: hidden;
-    box-sizing: border-box;
-}
-
-/* Overlay oscuro para el texto */
-.hero-banner::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 1;
-}
-
-/* Contenedor del hero */
-.hero-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    gap: 40px;
-    box-sizing: border-box;
-    position: relative;
-    z-index: 2;
-}
-
 /* Prevenir scroll horizontal */
 body.page-template-page-home,
 body.home {
     overflow-x: hidden;
 }
 
-/* CSS ADICIONAL PARA EL CAROUSEL FUNCIONAL */
+/* ================================
+   MENSAJES DE ERROR/DEBUG
+   ================================ */
 
-/* Mensaje de error/no productos */
 .error-message,
 .no-products-message {
     background: #fff3cd;
@@ -611,261 +497,48 @@ body.home {
     color: #721c24;
 }
 
-/* Ajustes para el carousel wrapper */
-.carousel-wrapper {
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 40px;
-    padding: 0 60px; /* Espacio para los botones */
-}
 
-.carousel-container {
-    display: flex;
-    transition: transform 0.5s ease;
+
+
+
+
+
+
+
+
+/* SOLO PARA GRID DE PRODUCTOS - NO CARRUSEL 
+
+Asegurar que sea un grid normal 
+.products {
+    display: flex !important;
+    flex-wrap: wrap !important;
     gap: 20px;
-    will-change: transform;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-/* Ajustes para las cards de productos */
-.product-card {
-    min-width: 280px;
-    flex-shrink: 0;
-    background: var(--white);
-    border-radius: 10px;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    transition: transform 0.3s ease;
-    position: relative;
+/* Elementos del grid 
+.products li.product {
+    flex: 0 0 calc(25% - 15px) !important; /* 4 columnas 
+    max-width: calc(25% - 15px) !important;
+    margin: 0 !important;
+    list-style: none !important;
 }
 
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-}
-
-/* Imagen del producto */
-.product-image {
-    position: relative;
-    overflow: hidden;
-    height: 200px;
-    background: #f8f9fa;
-}
-
-.product-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.product-card:hover .product-image img {
-    transform: scale(1.05);
-}
-
-/* Badge de oferta */
-.product-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: var(--accent-color);
-    color: var(--secondary-color);
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: bold;
-    z-index: 2;
-    text-transform: uppercase;
-}
-
-/* Información del producto */
-.product-info {
-    padding: 20px;
-}
-
-.product-title {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 0 0 10px 0;
-    color: var(--secondary-color);
-    line-height: 1.3;
-    height: 40px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-
-.product-title a {
-    color: var(--secondary-color);
-    text-decoration: none;
-}
-
-.product-title a:hover {
-    color: var(--primary-color);
-}
-
-/* Precio del producto */
-.product-price {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-bottom: 15px;
-    min-height: 25px;
-}
-
-.product-price .amount {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.product-price del {
-    color: #999;
-    font-size: 14px;
-    margin-right: 8px;
-}
-
-.product-price ins {
-    text-decoration: none;
-    color: var(--primary-color);
-}
-
-/* Rating del producto */
-.product-rating {
-    margin-bottom: 15px;
-    min-height: 20px;
-}
-
-.product-rating .star-rating {
-    font-size: 14px;
-    color: var(--accent-color);
-}
-
-/* Botón del producto */
-.product-button {
-    background: var(--primary-color);
-    color: var(--white);
-    border: none;
-    padding: 12px 20px;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    width: 100%;
-    transition: background 0.3s ease;
-    font-size: 14px;
-    text-transform: uppercase;
-}
-
-.product-button:hover {
-    background: var(--secondary-color);
-}
-
-/* Botones de navegación del carousel */
-.carousel-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.95);
-    color: var(--primary-color);
-    border: none;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    z-index: 10;
-    font-size: 24px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.carousel-nav:hover {
-    background: var(--white);
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.carousel-prev {
-    left: 10px;
-}
-
-.carousel-next {
-    right: 10px;
-}
-
-/* Responsive */
+/* Responsive 
 @media (max-width: 768px) {
-    .carousel-wrapper {
-        padding: 0 20px;
-    }
-    
-    .product-card {
-        min-width: 250px;
-    }
-    
-    .carousel-nav {
-        width: 40px;
-        height: 40px;
-        font-size: 20px;
-    }
-    
-    .carousel-prev {
-        left: 5px;
-    }
-    
-    .carousel-next {
-        right: 5px;
+    .products li.product {
+        flex: 0 0 calc(50% - 10px) !important; /* 2 columnas en tablet 
+        max-width: calc(50% - 10px) !important;
     }
 }
 
 @media (max-width: 480px) {
-    .carousel-wrapper {
-        padding: 0 10px;
-    }
-    
-    .product-card {
-        min-width: 220px;
-    }
-    
-    .carousel-nav {
-        display: none !important;
-    }
-    
-    .carousel-container {
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-    }
-    
-    .product-card {
-        scroll-snap-align: start;
+    .products li.product {
+        flex: 0 0 100% !important; /* 1 columna en móvil 
+        max-width: 100% !important;
     }
 }
 
-/* Placeholder para productos sin imagen */
-.woocommerce-placeholder {
-    background: #f8f9fa;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ccc;
-    font-size: 48px;
-}
-
-/* Ajustes para compatibilidad con WooCommerce */
-.woocommerce .products-carousel .product-card .price {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--primary-color);
-}
-
-.woocommerce .products-carousel .product-card .price del {
-    color: #999;
-    font-size: 14px;
-}
-
-.woocommerce .products-carousel .product-card .price ins {
-    text-decoration: none;
-    color: var(--primary-color);
-}
+*/
