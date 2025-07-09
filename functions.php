@@ -1,5 +1,16 @@
 <?php
-// SHORTCODE CORREGIDO PARA PRODUCTOS CON BOTÓN DE CARRITO
+// Funciones del child theme
+function shoptimizer_child_enqueue_styles() {
+    wp_enqueue_style( 'shoptimizer-style', get_template_directory_uri() . '/style.css' );
+    wp_enqueue_style( 'shoptimizer-child-style',
+        get_stylesheet_directory_uri() . '/style.css',
+        array('shoptimizer-style'),
+        wp_get_theme()->get('Version')
+    );
+}
+add_action( 'wp_enqueue_scripts', 'shoptimizer_child_enqueue_styles' );
+
+// Shortcode para carousel de productos - CORREGIDO
 function productos_carousel_shortcode($atts) {
     $atts = shortcode_atts(array(
         'categoria' => '',
@@ -7,211 +18,136 @@ function productos_carousel_shortcode($atts) {
     ), $atts);
     
     // Verificar que WooCommerce esté activo
-    if (!function_exists('wc_get_products')) {
-        return '<div style="padding: 20px; background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; border-radius: 5px;">WooCommerce no está activo o no se puede acceder a los productos.</div>';
+    if (!class_exists('WooCommerce')) {
+        return '<p>WooCommerce no está activo.</p>';
     }
     
-    $products = array();
+    // Obtener productos de la categoría - QUERY CORREGIDA
+    $args = array(
+        'post_type' => 'product',
+        'posts_per_page' => $atts['limite'],
+        'post_status' => 'publish',
+        'meta_query' => array(
+            array(
+                'key' => '_stock_status',
+                'value' => 'instock',
+                'compare' => '='
+            )
+        )
+    );
     
-    // Si se especifica una categoría
+    // Si hay categoría específica, filtrar por ella
     if (!empty($atts['categoria'])) {
-        // Método 1: Buscar por slug de categoría
-        $term = get_term_by('slug', $atts['categoria'], 'product_cat');
+        $args['tax_query'] = array(
+            array(
+                'taxonomy' => 'product_cat',
+                'field' => 'slug',
+                'terms' => $atts['categoria']
+            )
+        );
+    }
+    
+    $products = new WP_Query($args);
+    
+    if (!$products->have_posts()) {
+        return '<p>No hay productos disponibles en esta categoría: ' . esc_html($atts['categoria']) . '</p>';
+    }
+    
+    // ESTRUCTURA CORREGIDA DEL CAROUSEL
+    $output = '<div class="carousel-wrapper">';
+    $output .= '<div class="carousel-container">';
+    
+    while ($products->have_posts()) {
+        $products->the_post();
+        global $product;
         
-        if ($term) {
-            $products = wc_get_products(array(
-                'limit' => intval($atts['limite']),
-                'status' => 'publish',
-                'category' => array($term->slug),
-                'stock_status' => 'instock'
-            ));
+        $product_id = get_the_ID();
+        $product_title = get_the_title();
+        $product_link = get_permalink();
+        $product_image = get_the_post_thumbnail($product_id, 'woocommerce_thumbnail');
+        $product_price = $product->get_price_html();
+        $product_rating = wc_get_rating_html($product->get_average_rating());
+        
+        // Si no hay imagen, usar placeholder
+        if (!$product_image) {
+            $product_image = '<img src="' . wc_placeholder_img_src() . '" alt="' . esc_attr($product_title) . '">';
         }
         
-        // Método 2: Si no encuentra por slug, buscar por nombre
-        if (empty($products)) {
-            $term = get_term_by('name', $atts['categoria'], 'product_cat');
-            if ($term) {
-                $products = wc_get_products(array(
-                    'limit' => intval($atts['limite']),
-                    'status' => 'publish',
-                    'category' => array($term->slug),
-                    'stock_status' => 'instock'
-                ));
-            }
-        }
-        
-        // Método 3: Buscar usando tax_query (más específico)
-        if (empty($products)) {
-            $args = array(
-                'post_type' => 'product',
-                'posts_per_page' => intval($atts['limite']),
-                'post_status' => 'publish',
-                'meta_query' => array(
-                    array(
-                        'key' => '_stock_status',
-                        'value' => 'instock'
-                    )
-                ),
-                'tax_query' => array(
-                    array(
-                        'taxonomy' => 'product_cat',
-                        'field' => 'slug',
-                        'terms' => $atts['categoria']
-                    )
-                )
-            );
-            
-            $query = new WP_Query($args);
-            $products = array();
-            
-            if ($query->have_posts()) {
-                while ($query->have_posts()) {
-                    $query->the_post();
-                    $products[] = wc_get_product(get_the_ID());
+        // Obtener colores del producto (usando atributos)
+        $colors = '';
+        $attributes = $product->get_attributes();
+        if (isset($attributes['pa_color']) || isset($attributes['color'])) {
+            $color_terms = wp_get_post_terms($product_id, 'pa_color');
+            if (!empty($color_terms)) {
+                $colors = '<div class="product-colors">';
+                foreach ($color_terms as $color) {
+                    $colors .= '<span class="color-option ' . esc_attr($color->slug) . '"></span>';
                 }
-                wp_reset_postdata();
-            }
-        }
-    } else {
-        // Si no se especifica categoría, mostrar productos recientes
-        $products = wc_get_products(array(
-            'limit' => intval($atts['limite']),
-            'status' => 'publish',
-            'stock_status' => 'instock',
-            'orderby' => 'date',
-            'order' => 'DESC'
-        ));
-    }
-    
-    // Debug: Mostrar información de categorías disponibles si no hay productos
-    if (empty($products)) {
-        $debug_info = '<div style="padding: 20px; background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; border-radius: 5px;">';
-        $debug_info .= '<strong>Debug Info:</strong><br>';
-        $debug_info .= 'Categoría buscada: ' . esc_html($atts['categoria']) . '<br>';
-        
-        // Mostrar todas las categorías disponibles
-        $categories = get_terms(array(
-            'taxonomy' => 'product_cat',
-            'hide_empty' => false
-        ));
-        
-        if (!empty($categories)) {
-            $debug_info .= '<strong>Categorías disponibles:</strong><br>';
-            foreach ($categories as $category) {
-                $debug_info .= '- ' . $category->name . ' (slug: ' . $category->slug . ')<br>';
+                $colors .= '</div>';
             }
         }
         
-        $debug_info .= '</div>';
-        return $debug_info;
-    }
-    
-    // NUEVA IMPLEMENTACIÓN: Usar plantilla estándar de WooCommerce
-    ob_start();
-    
-    // Configurar query global para WooCommerce
-    global $woocommerce_loop;
-    $woocommerce_loop['columns'] = 4;
-    $woocommerce_loop['is_shortcode'] = true;
-    
-    echo '<div class="woocommerce">';
-    echo '<div class="products-carousel-homepage">';
-    echo '<ul class="products columns-4">';
-    
-    foreach ($products as $product) {
-        if (!is_object($product)) {
-            continue;
+        $output .= '<div class="product-card">';
+        $output .= '<div class="product-image">';
+        $output .= '<a href="' . esc_url($product_link) . '">' . $product_image . '</a>';
+        
+        // Badge de descuento
+        if ($product->is_on_sale()) {
+            $output .= '<span class="product-badge">OFERTA</span>';
         }
         
-        // Configurar post data para el producto actual
-        $GLOBALS['post'] = get_post($product->get_id());
-        setup_postdata($GLOBALS['post']);
+        $output .= '</div>';
+        $output .= '<div class="product-info">';
+        $output .= '<h3 class="product-title"><a href="' . esc_url($product_link) . '">' . esc_html($product_title) . '</a></h3>';
+        $output .= $colors;
+        $output .= '<div class="product-price">' . $product_price . '</div>';
         
-        // Usar la plantilla estándar de WooCommerce
-        wc_get_template_part('content', 'product');
+        if ($product_rating) {
+            $output .= '<div class="product-rating">' . $product_rating . '</div>';
+        }
+        
+        $output .= '<button class="product-button" onclick="location.href=\'' . esc_url($product_link) . '\'">Ver Producto</button>';
+        $output .= '</div>';
+        $output .= '</div>';
     }
     
-    echo '</ul>';
-    echo '</div>';
-    echo '</div>';
+    $output .= '</div>'; // Cierra carousel-container
+    
+    // Botones de navegación del carousel
+    $output .= '<button class="carousel-nav carousel-prev" onclick="moveCarousel(this, -1)">‹</button>';
+    $output .= '<button class="carousel-nav carousel-next" onclick="moveCarousel(this, 1)">›</button>';
+    $output .= '</div>'; // Cierra carousel-wrapper
     
     wp_reset_postdata();
     
-    return ob_get_clean();
+    return $output;
 }
 add_shortcode('productos_carousel', 'productos_carousel_shortcode');
 
-// ALTERNATIVA: Shortcode usando el shortcode nativo de WooCommerce
-function productos_wc_shortcode($atts) {
-    $atts = shortcode_atts(array(
-        'categoria' => '',
-        'limite' => 8,
-        'columnas' => 4
-    ), $atts);
-    
-    // Construir argumentos para el shortcode nativo
-    $shortcode_args = array(
-        'limit' => intval($atts['limite']),
-        'columns' => intval($atts['columnas']),
-        'orderby' => 'date',
-        'order' => 'DESC'
-    );
-    
-    // Si hay categoría, añadirla
-    if (!empty($atts['categoria'])) {
-        $shortcode_args['category'] = $atts['categoria'];
+// JavaScript para el carousel - CORREGIDO
+function add_carousel_script() {
+    ?>
+    <script>
+    function moveCarousel(button, direction) {
+        const wrapper = button.parentElement;
+        const container = wrapper.querySelector('.carousel-container');
+        const cards = container.querySelectorAll('.product-card');
+        
+        if (cards.length === 0) return;
+        
+        const cardWidth = cards[0].offsetWidth + 20; // 20px gap
+        const currentTransform = container.style.transform || 'translateX(0px)';
+        const currentX = parseInt(currentTransform.replace('translateX(', '').replace('px)', '')) || 0;
+        const newX = currentX + (direction * cardWidth * -1);
+        
+        // Limitar el desplazamiento
+        const maxScroll = -(container.scrollWidth - wrapper.offsetWidth);
+        const finalX = Math.max(Math.min(newX, 0), maxScroll);
+        
+        container.style.transform = `translateX(${finalX}px)`;
     }
-    
-    // Construir string de atributos
-    $shortcode_string = '[products';
-    foreach ($shortcode_args as $key => $value) {
-        $shortcode_string .= ' ' . $key . '="' . $value . '"';
-    }
-    $shortcode_string .= ']';
-    
-    // Envolver en contenedor personalizado
-    $output = '<div class="productos-homepage-wrapper">';
-    $output .= do_shortcode($shortcode_string);
-    $output .= '</div>';
-    
-    return $output;
+    </script>
+    <?php
 }
-add_shortcode('productos_wc', 'productos_wc_shortcode');
-
-// FUNCIÓN ADICIONAL PARA DEBUGGEAR CATEGORÍAS
-function debug_product_categories_shortcode() {
-    if (!function_exists('wc_get_products')) {
-        return 'WooCommerce no está activo.';
-    }
-    
-    $categories = get_terms(array(
-        'taxonomy' => 'product_cat',
-        'hide_empty' => false
-    ));
-    
-    $output = '<div style="padding: 20px; background: #e7f3ff; border: 1px solid #b8daff; border-radius: 5px;">';
-    $output .= '<h3>Categorías de Productos Disponibles:</h3>';
-    
-    if (!empty($categories)) {
-        $output .= '<ul>';
-        foreach ($categories as $category) {
-            $product_count = wc_get_products(array(
-                'category' => array($category->slug),
-                'return' => 'ids',
-                'limit' => -1
-            ));
-            $count = count($product_count);
-            
-            $output .= '<li><strong>' . $category->name . '</strong> (slug: <code>' . $category->slug . '</code>) - ' . $count . ' productos</li>';
-        }
-        $output .= '</ul>';
-    } else {
-        $output .= '<p>No se encontraron categorías de productos.</p>';
-    }
-    
-    $output .= '</div>';
-    
-    return $output;
-}
-add_shortcode('debug_categorias', 'debug_product_categories_shortcode');
+add_action('wp_footer', 'add_carousel_script');
 ?>
